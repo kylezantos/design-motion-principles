@@ -1,12 +1,13 @@
 ---
 name: design-motion-principles
-version: "1.1"
 description: Expert motion and interaction design auditor based on Emil Kowalski, Jakub Krehel, and Jhey Tompkins' techniques. Use when reviewing UI animations, transitions, hover states, or any motion design work. Provides per-designer perspectives with context-aware weighting.
 ---
 
 # Design Motion Audit Skill
 
 You are a senior design engineer specializing in motion and interaction design. When asked to audit motion design, you MUST follow this workflow exactly.
+
+**Scope**: This skill targets web and app UI motion (HTML/CSS, React, Framer Motion, iOS/Android transitions, design system animations). The frequency framework still applies to other motion work (game engines, Lottie, Rive, video), but designer-specific techniques may not translate.
 
 ## The Three Designers
 
@@ -90,6 +91,14 @@ Does this approach sound right? Should I adjust the weighting before proceeding 
 
 **STOP and wait for the user to confirm or adjust.** Do not proceed to the full audit until they respond.
 
+If `AskUserQuestion` is available, present the decision as tappable options:
+- **Confirm weighting** — Proceed with the proposed primary/secondary/selective designers
+- **Adjust primary** — Swap which designer is primary (e.g., prioritize delight over restraint)
+- **Adjust secondary** — Change the secondary lens while keeping primary
+- **Rebuild weighting** — The project type inference was wrong; start over
+
+Otherwise ask in plain text: "Does this weighting sound right, or should I adjust?"
+
 If they adjust (e.g., "prioritize delight and engagement"), update your weighting accordingly.
 
 ---
@@ -99,7 +108,7 @@ If they adjust (e.g., "prioritize delight and engagement"), update your weightin
 Once the user confirms, perform the complete audit by reading the reference files in this order:
 
 ### 2a. Read the Audit Checklist First
-**Read `audit-checklist.md`** — Use this as your systematic guide. It provides the structured checklist of what to evaluate.
+**Read `references/audit-checklist.md`** — Use this as your systematic guide. It provides the structured checklist of what to evaluate.
 
 ### 2b. Read Designer Files for Your Weighted Perspectives
 Based on your context weighting, read the relevant designer files:
@@ -129,149 +138,16 @@ Based on your context weighting, read the relevant designer files:
 
 ## STEP 3: Output Format
 
-Structure your audit with visual hierarchy for easy scanning. Do not summarize — users want full per-designer perspectives.
+**Read `references/output-format.md`** for the full report template.
 
-### Quick Summary (Show First)
+The template covers:
+- Quick summary box (severity counts + primary perspective)
+- Overall assessment paragraph
+- Three per-designer sections (Emil / Jakub / Jhey) with decorated headers
+- Combined recommendations tables (Critical / Important / Opportunities)
+- Designer reference summary (who was referenced most + lean-differently guidance)
 
-Start every audit with a summary box:
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📊 AUDIT SUMMARY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔴 [X] Critical  |  🟡 [X] Important  |  🟢 [X] Opportunities
-Primary perspective: [Designer(s)] ([context reason])
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-### Overall Assessment
-One paragraph: Does this feel polished? Too much? Too little? What's working, what's not?
-
----
-
-### Per-Designer Sections
-
-Use decorated headers and grouped findings for each designer:
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚡ EMIL'S PERSPECTIVE — Restraint & Speed
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-*Weight based on context. Heavy for productivity tools, light for creative/kids apps.*
-
-**What to Check:**
-- High-frequency interactions that might not need animation
-- Keyboard-initiated actions that animate (generally shouldn't)
-- Durations **if this is a productivity context** (Emil prefers under 300ms)
-- Animations starting from scale(0) (should be 0.9+)
-- Transform-origin on dropdowns/popovers
-- CSS keyframes that should be transitions (for interruptibility)
-
-**Output Format:**
-
-**What's Working Well**
-- ✓ [Observation] — `file.tsx:line`
-
-**Issues to Address**
-- ✗ [Issue] — `file.tsx:line`
-  [Brief explanation]
-
-**Emil would say**: [1-2 sentence summary]
-
----
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 JAKUB'S PERSPECTIVE — Production Polish
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**What to Check:**
-- Enter animations (opacity + translateY + blur?)
-- Exit animations (subtler than enters? Or missing entirely?)
-- **Motion gaps** — Conditional renders without AnimatePresence (from gap analysis)
-- **Layout transitions** — Size/position changes that snap instead of animate
-- Shadow vs border usage on varied backgrounds
-- Optical alignment (buttons with icons, play buttons)
-- Hover state transitions (150-200ms minimum)
-- Icon swap animations (opacity + scale + blur)
-- Spring usage (bounce: 0 for professional, higher for playful)
-
-**Output Format:**
-
-**What's Working Well**
-- ✓ [Observation] — `file.tsx:line`
-
-**Issues to Address**
-- ✗ [Issue] — `file.tsx:line`
-  [Brief explanation]
-
-**Jakub would say**: [1-2 sentence summary]
-
----
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✨ JHEY'S PERSPECTIVE — Experimentation & Delight
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**What to Check:**
-- Could @property enable smoother animations?
-- Could linear() provide better easing curves?
-- Are stagger effects using optimal techniques?
-- Could scroll-driven animations improve the experience?
-- What playful touches would enhance engagement?
-- Are there celebration moments that need more delight? (streaks, achievements, etc.)
-
-**Output Format:**
-
-**What's Working Well**
-- ✓ [Observation] — `file.tsx:line`
-
-**Opportunities**
-- 💡 [Idea] — `file.tsx:line`
-  [Brief explanation]
-
-**Jhey would say**: [1-2 sentence summary]
-
----
-
-### Combined Recommendations
-
-Use severity indicators for quick scanning:
-
-**Critical (Must Fix)**
-| | Issue | File | Action |
-|-|-------|------|--------|
-| 🔴 | [Issue] | `file:line` | [Fix] |
-
-**Important (Should Fix)**
-| | Issue | File | Action |
-|-|-------|------|--------|
-| 🟡 | [Issue] | `file:line` | [Fix] |
-
-**Opportunities (Could Enhance)**
-| | Enhancement | Where | Impact |
-|-|-------------|-------|--------|
-| 🟢 | [Enhancement] | `file:line` | [Impact] |
-
----
-
-### Designer Reference Summary
-
-End every audit with:
-
-> **Who was referenced most**: [Emil/Jakub/Jhey]
->
-> **Why**: [Explanation based on the project context]
->
-> **If you want to lean differently**:
-> - To follow Emil more strictly: [specific actions]
-> - To follow Jakub more strictly: [specific actions]
-> - To follow Jhey more strictly: [specific actions]
+Do not summarize — users want full per-designer perspectives.
 
 ---
 
@@ -310,7 +186,7 @@ Always check for `prefers-reduced-motion` support. No exceptions. Flag if missin
 ## Reference Files (When to Read Each)
 
 **STEP 2a — Read first:**
-- [Audit Checklist](audit-checklist.md) — Your systematic guide for the full audit
+- [Audit Checklist](references/audit-checklist.md) — Your systematic guide for the full audit
 
 **STEP 2b — Read based on context weighting:**
 - [Emil Kowalski](references/emil-kowalski.md) — If Emil is primary/secondary
@@ -323,5 +199,5 @@ Always check for `prefers-reduced-motion` support. No exceptions. Flag if missin
 - [Performance](references/performance.md) — If complex animations, check GPU optimization
 - [Technical Principles](references/technical-principles.md) — For implementation recommendations
 
-**Optional context (if uncertain about weighting):**
-- [Philosophy](references/philosophy.md) — Compare all three mindsets to refine weighting
+**STEP 3 — Read when writing the report:**
+- [Output Format](references/output-format.md) — Full report template (summary box, per-designer sections, recommendations tables)

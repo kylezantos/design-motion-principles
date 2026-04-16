@@ -66,16 +66,16 @@ Does this approach sound right?
 skills/
   └── design-motion-principles/
       ├── SKILL.md                    # Main skill with workflow
-      ├── audit-checklist.md          # Structured audit criteria
       └── references/
+          ├── audit-checklist.md      # Structured audit criteria
           ├── emil-kowalski.md        # Emil's philosophy & techniques
           ├── jakub-krehel.md         # Jakub's philosophy & techniques
           ├── jhey-tompkins.md        # Jhey's philosophy & techniques
-          ├── philosophy.md           # Synthesized design philosophy
           ├── technical-principles.md # Implementation patterns
           ├── accessibility.md        # Motion accessibility guidelines
           ├── performance.md          # Performance best practices
-          └── common-mistakes.md      # Anti-patterns to flag
+          ├── common-mistakes.md      # Anti-patterns to flag
+          └── output-format.md        # Report template for audits
 ```
 
 ## Manual Installation
