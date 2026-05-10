@@ -1,0 +1,24 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "design-motion-principles",
+  "metadata": {
+    "description": "Expert motion and interaction design skill based on Emil Kowalski, Jakub Krehel, and Jhey Tompkins techniques."
+  },
+  "owner": {
+    "name": "kylezantos"
+  },
+  "plugins": [
+    {
+      "name": "design-motion-principles",
+      "description": "Motion and interaction design auditor for UI animations, transitions, hover states, and motion design work.",
+      "version": "1.0.0",
+      "author": {
+        "name": "kylezantos"
+      },
+      "source": "./plugin",
+      "category": "design",
+      "homepage": "https://github.com/kylezantos/design-motion-principles",
+      "tags": ["design", "motion", "animation", "frontend", "ui", "ux"]
+    }
+  ]
+}
