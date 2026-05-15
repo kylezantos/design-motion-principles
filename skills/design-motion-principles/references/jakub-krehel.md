@@ -1,12 +1,16 @@
 # Jakub Krehel's Animation Principles
 
-Jakub Krehel is a design engineer known for his work at jakub.kr. His approach emphasizes **subtle production polish**—animations that enhance the experience invisibly, designed for real client work where users will interact repeatedly.
+Jakub Krehel is a design engineer known for his work at jakub.kr. His approach emphasizes **subtle production polish** — animations that enhance the experience invisibly, designed for real client work where users interact repeatedly.
+
+This file is Jakub's **philosophy and decision frameworks** — the judgment for *how polished* and *how subtle* motion should be. Implementation code lives in `motion-cookbook.md` (cross-referenced below).
 
 ---
 
 ## Core Philosophy: Invisible Enhancement
 
 > "The best animation is that which goes unnoticed."
+
+His key question for any interaction: **"Is this subtle and polished enough for production?"**
 
 Jakub's work embodies **refinement for production use**. His animations are:
 
@@ -31,247 +35,25 @@ Jakub's work embodies **refinement for production use**. His animations are:
 
 ---
 
-## Enter Animation Recipe
-
-A standard enter animation combines three properties:
-
-```jsx
-initial={{ opacity: 0, translateY: 8, filter: "blur(4px)" }}
-animate={{ opacity: 1, translateY: 0, filter: "blur(0px)" }}
-transition={{ type: "spring", duration: 0.45, bounce: 0 }}
-```
-
-| Property | From | To | Purpose |
-|----------|------|-----|---------|
-| Opacity | 0 | 1 | Fade in |
-| TranslateY | 8px | 0 | Subtle upward movement |
-| Blur | 4px | 0px | "Materializing" effect |
-
-**Why blur?** It creates a "materializing" effect that feels more physical than opacity alone. The element appears to come into focus, not just fade in.
-
-For full container slides, use `translateY: "calc(-100% - 4px)"` instead of fixed pixels.
-
----
-
-## Exit Animation Subtlety
-
-**Key Insight**: Exit animations should be subtler than enter animations.
-
-When a component exits, it doesn't need the same amount of movement or attention as when entering. The user's focus is moving to what comes next, not what's leaving.
-
-```jsx
-// Instead of full exit movement:
-exit={{ translateY: "calc(-100% - 4px)" }}
-
-// Use a subtle fixed value:
-exit={{ translateY: "-12px", opacity: 0, filter: "blur(4px)" }}
-```
-
-**Why this works**: Exits become softer, less jarring, and don't compete for attention.
-
-**When NOT to use subtle exits**:
-- When the exit itself is meaningful (user-initiated dismissal)
-- When you need to emphasize something leaving (error clearing, item deletion)
-- Full-page transitions where directional continuity matters
-
----
-
-## Spring Animations
-
-Prefer spring animations over linear/ease for more natural-feeling motion:
-
-```jsx
-transition={{ type: "spring", duration: 0.45, bounce: 0 }}
-transition={{ type: "spring", duration: 0.55, bounce: 0.1 }}
-```
-
-**Why `bounce: 0`?** It gives smooth deceleration without overshoot—professional and refined.
-
-**Reserve bounce > 0** for playful contexts only.
-
----
-
-## Shadows Instead of Borders
-
-In light mode, prefer subtle multi-layer box-shadows over solid borders:
-
-```css
-.card {
-  box-shadow:
-    0px 0px 0px 1px rgba(0, 0, 0, 0.06),
-    0px 1px 2px -1px rgba(0, 0, 0, 0.06),
-    0px 2px 4px 0px rgba(0, 0, 0, 0.04);
-}
-
-/* Slightly darker on hover */
-.card:hover {
-  box-shadow:
-    0px 0px 0px 1px rgba(0, 0, 0, 0.08),
-    0px 1px 2px -1px rgba(0, 0, 0, 0.08),
-    0px 2px 4px 0px rgba(0, 0, 0, 0.06);
-}
-```
-
-**Why shadows over borders?**
-- Shadows adapt to any background (images, gradients, varied colors) via transparency
-- Borders are solid colors that may clash with dynamic backgrounds
-- Multi-layer shadows create depth; single borders feel flat
-- Shadows can be transitioned smoothly
-
-**When borders are fine**:
-- Dark mode (shadows less visible anyway)
-- When you need hard edges intentionally
-- Simple interfaces where depth isn't needed
-
----
-
-## Gradients & Color Spaces
-
-Use `oklch` for gradients to avoid muddy midpoints:
-
-```css
-.element {
-  background: linear-gradient(in oklch, blue, red);
-}
-```
-
-**Why oklch?** It interpolates through perceptually uniform color space, avoiding the gray/muddy zone that sRGB hits when blending complementary colors.
-
-**Color hints** control where the blend midpoint appears (different from color stops).
-
-Layer gradients with `background-blend-mode` for unique effects.
-
----
-
-## Blur as a Signal
-
-Blur (via `filter: blur()`) combined with opacity and translate creates a "materializing" effect. Use blur to signal:
-
-- **Entering focus**: blur → sharp
-- **Losing relevance**: sharp → blur
-- **State transitions**: blur during, sharp after
-
----
-
-## Optical Alignment
-
-> "Sometimes it's necessary to break out of geometric alignment to make things feel visually balanced."
-
-### Buttons with Icons
-Reduce padding on the icon side so content appears centered:
-```
-[  Icon Text  ] ← Geometric (mathematically centered, feels off)
-[ Icon Text   ] ← Optical (visually centered, feels right)
-```
-
-### Play Button Icons
-The triangle points right, creating visual weight on the left. Shift it slightly right to appear centered.
-
-### The Rule
-If it looks wrong despite being mathematically correct, trust your eyes and adjust.
-
----
-
-## Icon & State Animations
-
-When icons change contextually (copy → check, loading → done), animate:
-- Opacity
-- Scale
-- Blur
-
-```jsx
-<AnimatePresence mode="wait">
-  {isCopied ? (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8, filter: "blur(4px)" }}
-      animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-      exit={{ opacity: 0, scale: 0.8, filter: "blur(4px)" }}
-    >
-      <CheckIcon />
-    </motion.div>
-  ) : (
-    <motion.div ...>
-      <CopyIcon />
-    </motion.div>
-  )}
-</AnimatePresence>
-```
-
-**Why animate icon swaps?** Instant swaps feel jarring and can be missed. Animated transitions:
-- Draw attention to the state change
-- Feel responsive and polished
-- Give the user confidence their action registered
-
----
-
-## Shared Layout Animations
-
-### FLIP Technique via layoutId
-
-Motion's `layoutId` prop enables smooth transitions between completely different components:
-
-```jsx
-// In one location:
-<motion.div layoutId="card" className="small-card" />
-
-// In another location:
-<motion.div layoutId="card" className="large-card" />
-```
-
-Motion automatically animates between them using the FLIP technique (First, Last, Inverse, Play).
-
-### Best Practices
-- Keep elements with `layoutId` **outside** of `AnimatePresence` to avoid conflicts
-- If inside `AnimatePresence`, initial/exit animations trigger during layout animation (looks bad)
-- Multiple elements can animate if each has a unique `layoutId`
-- Works for different heights, widths, positions, and component types
-
----
-
-## will-change Performance
-
-A hint to the browser: "I'm about to animate these properties, please prepare."
-
-```css
-/* Good - specific properties that will animate */
-.animated-button {
-  will-change: transform, opacity;
-}
-
-/* Bad - too broad, wastes resources */
-* { will-change: auto; }
-.element { will-change: all; }
-```
-
-**Properties that benefit from will-change**:
-- transform
-- opacity
-- filter (blur, brightness)
-- clip-path
-- mask
-
-**Why it matters**: Without the hint, the browser promotes elements to GPU layers only when animation starts, causing first-frame stutter.
-
-**When NOT to use**:
-- On elements that won't animate
-- On too many elements (each GPU layer uses memory)
-- As a "fix" for janky animations (find the real cause)
-
----
-
-## Gradient Animation Performance
-
-**Cheap to animate (GPU-accelerated)**:
-- background-position
-- background-size
-- opacity
-
-**Expensive to animate**:
-- Color stops
-- Adding/removing gradient layers
-- Switching gradient types
-
-**Tip**: Animate a pseudo-element overlay or use CSS variables that transition indirectly.
+## Signature Techniques (decision context — code in cookbook)
+
+| Technique | When Jakub reaches for it | Cookbook |
+|-----------|---------------------------|----------|
+| Enter recipe (opacity + translateY + blur) | Any element appearing — blur creates a "materializing" feel more physical than fade alone | §1 |
+| Subtler exits | Always — exits don't need the same movement or attention as enters; the user is moving on | §1 |
+| Spring animations (`bounce: 0`) | Production motion — smooth deceleration without overshoot; reserve `bounce > 0` for playful contexts | §2 |
+| Shadows instead of borders | Light mode on varied backgrounds — shadows adapt via transparency where solid borders clash | §3 |
+| oklch gradients | Any gradient — interpolates through perceptually uniform space, avoiding muddy midpoints | §3 |
+| Blur as a signal | Materializing in/out — blur→sharp = entering focus, sharp→blur = losing relevance | §3 |
+| Optical alignment | Buttons with icons, play buttons, asymmetric shapes — trust your eyes over math | §4 |
+| Animated icon swaps (opacity + scale + blur) | Contextual icon changes (copy→check) — instant swaps feel jarring and get missed | §5 |
+| Shared layout via `layoutId` | Smooth FLIP transitions between different components (card→modal) | §6 |
+| Targeted `will-change` | Specific properties about to animate — never global | see `performance.md` |
+
+**Decision rules baked into the techniques:**
+- Exits should always be subtler than enters — smaller movement, same blur.
+- `bounce: 0` is the production default; bounce above zero reads as playful.
+- Borders are fine in dark mode or when you want intentional hard edges.
 
 ---
 
@@ -283,25 +65,6 @@ A hint to the browser: "I'm about to animate these properties, please prepare."
 - **Over-animating** — If users notice the animation itself, it's too much
 - **Using the same animation everywhere** — Context should drive timing and easing choices
 - **Ignoring hover state transitions** — Even small transitions (150-200ms) feel more polished than instant changes
-
----
-
-## Jakub's Technique Index
-
-From jakub.kr:
-
-| Technique | Key Insight |
-|-----------|-------------|
-| Enter Animation | Opacity + translateY + blur creates "materializing" effect |
-| Exit Animations | Subtler than enters, don't compete for attention |
-| Shadows vs Borders | Shadows adapt to varied backgrounds via transparency |
-| Gradients | Use oklch color space for smooth blending |
-| Optical Alignment | Trust your eyes over mathematical centering |
-| Shared Layout | layoutId enables FLIP-based smooth transitions |
-| will-change | Specific properties only, not everywhere |
-| Icon Animations | Animate swaps with opacity + scale + blur |
-| Spring Animations | bounce: 0 for professional, bounce > 0 for playful |
-| Motion Gestures | Micro-interactions for tactile feedback |
 
 ---
 

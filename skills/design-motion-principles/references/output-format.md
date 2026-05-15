@@ -54,7 +54,7 @@ Use decorated headers and grouped findings for each designer.
 - ✗ [Issue] — `file.tsx:line`
   [Brief explanation]
 
-**Emil would say**: [1-2 sentence summary]
+**Through Emil's lens**: [1-2 sentence summary]
 
 ---
 
@@ -86,7 +86,7 @@ Use decorated headers and grouped findings for each designer.
 - ✗ [Issue] — `file.tsx:line`
   [Brief explanation]
 
-**Jakub would say**: [1-2 sentence summary]
+**Through Jakub's lens**: [1-2 sentence summary]
 
 ---
 
@@ -115,7 +115,7 @@ Use decorated headers and grouped findings for each designer.
 - 💡 [Idea] — `file.tsx:line`
   [Brief explanation]
 
-**Jhey would say**: [1-2 sentence summary]
+**Through Jhey's lens**: [1-2 sentence summary]
 
 ---
 

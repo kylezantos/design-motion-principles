@@ -1,4 +1,6 @@
-# Technical Principles
+# Motion Cookbook
+
+The single source of truth for motion **recipes** — implementation patterns and code. In Create mode this is your primary reference; in Audit mode load it when making implementation recommendations. Designer philosophy and decision frameworks live in the per-designer reference files; the code lives here.
 
 ---
 
@@ -488,7 +490,7 @@ Great animations can be interrupted mid-play:
 
 ---
 
-## 12. Origin-Aware Animations (Emil)
+## 13. Origin-Aware Animations (Emil)
 
 Animations should originate from their logical source:
 
@@ -505,7 +507,7 @@ Animations should originate from their logical source:
 
 ---
 
-## 13. Scroll-Driven Animations (Jhey)
+## 14. Scroll-Driven Animations (Jhey)
 
 ### The Core Problem
 Scroll-driven animations are tied to scroll **speed**. If users scroll slowly, animations play slowly. This feels wrong for most UI—you want animations to trigger at a scroll position, not be controlled by scroll speed.

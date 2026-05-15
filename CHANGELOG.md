@@ -4,6 +4,24 @@ All notable changes to this skill will be documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.0.0] — 2026-05-15
+
+Major release: the skill now **builds** interactive components with motion, not just audits existing ones. Audit behavior is unchanged — existing workflows are preserved verbatim — but the skill's scope and identity expand enough to warrant a major version.
+
+### Added
+- **Create mode** — Build interactive components with purposeful motion (React, Framer Motion, CSS, HTML). Light-discovery flow: infer context, confirm lens weighting, generate, self-check.
+- `workflows/create.md` and `workflows/audit.md` — SKILL.md is now a router; each mode is a self-contained workflow.
+- `STEP 0` mode detection in SKILL.md — routes "build/create/animate" requests to Create, "audit/review" to Audit, asks when ambiguous.
+- `references/creation-gotchas.md` — Claude's failure modes when generating motion (decorative-by-default, `scale(0)` starts, bare `ease`, missing `prefers-reduced-motion`, looping attention motion).
+- Attribution framing in SKILL.md and README — the three-lens framework is a distillation of the designers' publicly published work, named in tribute, not authored or endorsed by them.
+
+### Changed
+- Renamed `references/technical-principles.md` → `references/motion-cookbook.md` — now the single source of truth for all motion recipes. Fixed a duplicate section-number bug.
+- Rewrote the three designer files (`emil-kowalski.md`, `jakub-krehel.md`, `jhey-tompkins.md`) to hold philosophy and decision frameworks only; recipe code is de-duplicated and cross-referenced to the cookbook (~480 lines of duplication removed).
+- Audit report phrasing softened from "[Designer] would say" to "Through [Designer]'s lens" — it's a documented lens, not a quote from the person.
+- SKILL.md description updated with Create-mode trigger keywords so the skill auto-invokes on build tasks.
+- README rewritten for the dual-mode structure.
+
 ## [1.2.0] — 2026-04-16
 
 Structural cleanup and interactive-design improvements after a full skill-distillery audit.
