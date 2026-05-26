@@ -7,7 +7,7 @@ Distilled from the publicly published work of **Emil Kowalski**, **Jakub Krehel*
 ## Installation
 
 ```bash
-npx add-skill kylezantos/design-motion-principles
+npx skills add kylezantos/design-motion-principles
 ```
 
 Works with Claude Code, Cursor, Windsurf, and other AI coding assistants.
