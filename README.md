@@ -105,7 +105,7 @@ skills/
 
 ## Manual Installation
 
-If you prefer not to use `npx add-skill`:
+If you prefer not to use `npx skills add`:
 
 **Global (all projects):**
 ```bash
