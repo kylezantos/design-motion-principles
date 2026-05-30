@@ -93,7 +93,8 @@ skills/
           ├── creation-gotchas.md      # Failure modes when generating motion
           ├── audit-checklist.md       # Structured audit criteria
           ├── anti-checklist.md        # Quality gate: AI-slop categories + anti-patterns
-          ├── demo-shell.html          # Visual template for HTML-report demo cards
+          ├── demo-shell.html          # Minimal single-card template for HTML-report demos
+          ├── report-template.html     # Full worked-example audit report (HTML output reference)
           ├── emil-kowalski.md         # Emil's philosophy & decision frameworks
           ├── jakub-krehel.md          # Jakub's philosophy & decision frameworks
           ├── jhey-tompkins.md         # Jhey's philosophy & decision frameworks

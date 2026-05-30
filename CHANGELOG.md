@@ -4,6 +4,20 @@ All notable changes to this skill will be documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.1.1] — 2026-05-30
+
+A complete worked-example report for Audit mode. No behavior changes — the audit workflow is unchanged; this release upgrades the templates the agent reads when composing the HTML report, so real audits inherit a finished, consistent design.
+
+### Added
+- **`references/report-template.html`** — a full, self-contained worked-example audit report (the fictional "Tally" habit tracker, React + Framer Motion), now the canonical visual reference for the HTML output. It establishes the report's design system end to end: a pure-CSS global dark/light theme toggle, the cool slate-graphite OKLCH neutral palette (severity is the only color signal), a "Where the timings land" duration-budget diagram, five live looping demo cards each with a 3-state Auto/Light/Dark stage toggle, and severity-grouped recommendations. The agent reads this file to match layout, tokens, and structure when building a real audit.
+
+### Changed
+- `references/demo-shell.html` rewritten as a minimal single-card template — one `.demo` card with every per-finding contract visible (stage tokens, the Auto/Light/Dark stage toggle, the `prefers-reduced-motion` guard, and the `0% / ~60% / 100%` loop-pacing cadence) and no report scaffolding. Points to `report-template.html` for the full example.
+- `references/output-format.md` rewritten to name `report-template.html` as the source of truth and to document the system around it: the neutral-default, severity-driven palette; the per-demo stage tokens (`--st-bg` / `--st-fg` / `--st-line` / `--st-dim`); the timing-budget diagram; the report's no-entrance-animation motion posture; and the absolute bans (no accent border-stripes, no gradient text, no pulsing demos).
+
+### Fixed
+- Quoted the `SKILL.md` description so the `npx skills add` installer parses it — an unquoted colon in the description could break YAML frontmatter parsing on install.
+
 ## [2.1.0] — 2026-05-20
 
 Audit mode gets a visual upgrade and a sharper quality gate. Create mode is unchanged.
